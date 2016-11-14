@@ -3,7 +3,7 @@ import time
 import datetime
 from pyfirmata import util, Arduino
 import sqlite3
-import Adafruit_RGBCharLCD
+from Adafruit_CharLCD import Adafruit_RGBCharLCD
 
 mydb_path = "JTGScience2016.db"
 lcd = Adafruit_RGBCharLCD(25,24,23,17,21,22,16,2,12,13,16)
@@ -30,13 +30,16 @@ while 1:
     v2 = v_wind.read()
     i1 = i_solar.read()
     i2 = i_wind.read()
-    t = time.time(),v1,i1,v2,i2
-    lcd.message('Solar: ' + v1 + 'V ' + i1 +'A\n' + 'Wind:  ' + v2 + 'V ' + i2 + 'A')
-    cursor.execute('''INSERT INTO datalog(record_time,voltage_solar,
-        current_solar,voltage_wind,current_wind)
-        VALUES(datetime('now'),?,?,?,?)''',
-        (v1,i1,v2,i2))
-    db.commit()
+    try:
+        lcd.clear()
+        lcd.message('Sol: %2.2fV %2.2fA\nWnd: %2.2fV %2.2FA' % (v1,i1,v2,i2))
+        cursor.execute('''INSERT INTO datalog(record_time,voltage_solar,
+            current_solar,voltage_wind,current_wind)
+            VALUES(datetime('now'),?,?,?,?)''',
+            (v1,i1,v2,i2))
+        db.commit()
+    except TypeError:
+        pass
     time.sleep(5)
 
 db.close()
