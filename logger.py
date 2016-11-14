@@ -28,7 +28,9 @@ while 1:
     v2 = v_wind.read()
     i1 = i_solar.read()
     i2 = i_wind.read()
-    print('timestamp: ?, vSolar: ?, iSolar: ?, vWind: ?, iWind: ?',(time.time(),v1,i1,v2,i2))
+    t = time.time(),v1,i1,v2,i2
+    print t
+    #print 'Timestamp: {0}, Solar Voltage: {1}, Solar Current: {2}, Wind Voltage: {3}, Wind Current: {4}'.format(t)
     cursor.execute('''INSERT INTO datalog(record_time,voltage_solar,
         current_solar,voltage_wind,current_wind)
         VALUES(datetime('now'),?,?,?,?)''',
