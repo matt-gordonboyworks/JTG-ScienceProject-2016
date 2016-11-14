@@ -4,7 +4,7 @@ import datetime
 from pyfirmata import util, Arduino
 import sqlite3
 
-mydb_path = "./JTGScience2016.db"
+mydb_path = "JTGScience2016.db"
 
 if not os.path.exists(mydb_path):
     db = sqlite3.connect(mydb_path)
@@ -24,11 +24,15 @@ i_wind = board.get_pin('a:3:i')
 
 while 1:
     cursor = db.cursor()
-    print type(v_solar.read())
+    v1 = v_solar.read()
+    v2 = v_wind.read()
+    i1 = i_solar.read()
+    i2 = i_wind.read()
+    print('timestamp: ?, vSolar: ?, iSolar: ?, vWind: ?, iWind: ?',(time.time(),v1,i1,v2,i2))
     cursor.execute('''INSERT INTO datalog(record_time,voltage_solar,
         current_solar,voltage_wind,current_wind)
         VALUES(datetime('now'),?,?,?,?)''',
-        (v_solar.read(),i_solar.read(),v_wind.read(),i_wind.read()))
+        (v1,i1,v2,i2))
     db.commit()
     time.sleep(5)
 

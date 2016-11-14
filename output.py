@@ -2,8 +2,8 @@ import os
 import sqlite3
 import csv
 
-mydb_path = "./JTGScience2016.db"
-myfile_path = "./JTGScience2016.csv"
+mydb_path = "JTGScience2016.db"
+myfile_path = "JTGScience2016.csv"
 
 # if not os.path.exists(myfile_path):
 #     myfile = open(myfile_path, 'a')
@@ -19,6 +19,5 @@ with open(myfile_path, 'a') as out:
     writer.writerow(headers)
     for row in cursor:
         writer.writerow(row)
-
 db.close()
 out.close()
