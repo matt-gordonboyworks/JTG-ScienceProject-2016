@@ -4,7 +4,7 @@ import datetime
 from pyfirmata import util, Arduino
 import sqlite3
 
-mydb_path = "/home/pi/JTGScience2016.db"
+mydb_path = "./JTGScience2016.db"
 
 if not os.path.exists(mydb_path):
     db = sqlite3.connect(mydb_path)
