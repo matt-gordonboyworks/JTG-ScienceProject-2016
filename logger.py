@@ -9,7 +9,7 @@ mydb_path = "/home/pi/JTGScience2016.db"
 if not os.path.exists(mydb_path):
     db = sqlite3.connect(mydb_path)
     db.execute('''create table datalog(record_time text, voltage_solar real,
-    current_solar real, voltage_wind real, current_wind real)''')
+        current_solar real, voltage_wind real, current_wind real)''')
 else:
     db = sqlite3.connect(mydb_path)
 
@@ -25,7 +25,8 @@ i_wind = board.get_pin('a:3:i')
 while 1:
     cursor = db.cursor()
     print type(v_solar.read())
-    cursor.execute('''INSERT INTO datalog(record_time,voltage_solar,current_solar,voltage_wind,current_wind)
+    cursor.execute('''INSERT INTO datalog(record_time,voltage_solar,
+        current_solar,voltage_wind,current_wind)
         VALUES(datetime('now'),?,?,?,?)''',
         (v_solar.read(),i_solar.read(),v_wind.read(),i_wind.read()))
     db.commit()
